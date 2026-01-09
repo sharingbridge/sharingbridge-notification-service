@@ -4,7 +4,20 @@
 
 ## Overview
 
-This repository is part of the ShareBridge project - a platform for dignified charitable giving.
+This repository contains the **Notification Service** - manages all user communications via push notifications, SMS, and email.
+
+**Key Responsibilities:**
+- 📱 Push notifications (Firebase FCM) to mobile apps
+- 📧 Email notifications (order confirmations, updates)
+- 💬 SMS notifications (for users without smartphones)
+- 🔔 Real-time order status updates
+- ⏰ Scheduled notifications and reminders
+- 🌐 Multi-language notification templates
+- 📊 Notification delivery tracking and analytics
+- ⚙️ User notification preference management
+- 🚦 Rate limiting to prevent spam
+
+**Technology Stack:** Node.js with event-driven architecture (RabbitMQ/SQS) + Twilio (SMS) + Resend/SendGrid (Email)
 
 For overall project context, see the [main ShareBridge repository](https://github.com/sharebridge/sharebridge).
 
