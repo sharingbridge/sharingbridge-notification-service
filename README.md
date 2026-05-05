@@ -17,7 +17,7 @@ This repository contains the **Notification Service** - manages all user communi
 - ⚙️ User notification preference management
 - 🚦 Rate limiting to prevent spam
 
-**Technology Stack:** Node.js with event-driven architecture (RabbitMQ/SQS) + Twilio (SMS) + Resend/SendGrid (Email)
+**Technology Stack:** Node.js with event-driven architecture (Redis Streams/PubSub for MVP, AWS SQS/SNS at scale) + Twilio (SMS) + Resend/SendGrid (Email)
 
 For overall project context, see the [main ShareBridge repository](https://github.com/sharebridge/sharebridge).
 
