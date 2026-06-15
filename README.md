@@ -12,7 +12,7 @@ Receives **connection-ready** events from `sharingbridge-integration-service` an
 
 ## Environment
 
-Copy `env.example` → `.env`. See [environment-variables.md](https://github.com/sharingbridge/sharingbridge/blob/main/configuration/environment-variables.md#sharingbridge-notification-service).
+Deploy on Render: [environment-variables.md](https://github.com/sharingbridge/sharingbridge/blob/main/configuration/environment-variables.md#sharingbridge-notification-service). **Step-by-step:** [notification-service-local.md](https://github.com/sharingbridge/sharingbridge/blob/main/configuration/notification-service-local.md) · [backend-render.md](https://github.com/sharingbridge/sharingbridge/blob/main/configuration/backend-render.md) § Notification service.
 
 | Variable | Purpose |
 |----------|---------|

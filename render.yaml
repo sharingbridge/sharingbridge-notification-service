@@ -1,0 +1,23 @@
+# Render Blueprint — one Web Service. Full guide:
+# https://github.com/sharingbridge/sharingbridge/blob/main/configuration/backend-render.md
+services:
+  - type: web
+    name: sharingbridge-notification-service
+    runtime: node
+    plan: free
+    branch: main
+    autoDeploy: true
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: DATABASE_URL
+        sync: false
+      - key: WEBHOOK_SECRET
+        generateValue: true
+      - key: FIREBASE_SERVICE_ACCOUNT_JSON
+        sync: false
+      - key: LOG_LEVEL
+        value: warn
