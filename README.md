@@ -1,46 +1,55 @@
 # sharingbridge-notification-service
 
-> Push notifications and alerts
+> FCM push and transactional notification webhooks for SharingBridge.
 
 ## Overview
 
-This repository contains the **Notification Service** - manages all user communications via push notifications, SMS, and email.
+Receives **connection-ready** events from `sharingbridge-integration-service` and sends **FCM push** to registered device tokens.
 
-**Key Responsibilities:**
-- 📱 Push notifications (Firebase FCM) to mobile apps
-- 📧 Email notifications (order confirmations, updates)
-- 💬 SMS notifications (for users without smartphones)
-- 🔔 Real-time order status updates
-- ⏰ Scheduled notifications and reminders
-- 🌐 Multi-language notification templates
-- 📊 Notification delivery tracking and analytics
-- ⚙️ User notification preference management
-- 🚦 Rate limiting to prevent spam
+**Route:** `POST /internal/connection-ready`
 
-**Technology Stack:** Node.js with event-driven architecture (Redis Streams/PubSub for MVP, AWS SQS/SNS at scale) + Twilio (SMS) + Resend/SendGrid (Email)
+**Health:** `GET /health`
 
-For overall project context, see the [main SharingBridge repository](https://github.com/sharingbridge/sharingbridge).
+## Environment
 
-## Repository Status
+Copy `env.example` → `.env`. See [environment-variables.md](https://github.com/sharingbridge/sharingbridge/blob/main/configuration/environment-variables.md#sharingbridge-notification-service).
 
-🚧 **Status:** Initial Setup  
-📅 **Date:** January 9, 2026
+| Variable | Purpose |
+|----------|---------|
+| `DATABASE_URL` | Same Supabase Postgres as other services (`device_tokens` table) |
+| `WEBHOOK_SECRET` | Must match integration-service `CONNECTION_NOTIFY_WEBHOOK_SECRET` |
+| `FIREBASE_SERVICE_ACCOUNT_PATH` or `FIREBASE_SERVICE_ACCOUNT_JSON` | Firebase Admin credentials |
 
-## Getting Started
+Integration-service sets:
 
-> Coming soon - Development setup instructions
+```text
+CONNECTION_NOTIFY_WEBHOOK_URL=https://<notification-host>/internal/connection-ready
+CONNECTION_NOTIFY_WEBHOOK_SECRET=<same as WEBHOOK_SECRET>
+```
 
-## Contributing
+## Local run
 
-See the [main repository's CALL_FOR_CONTRIBUTORS.md](https://github.com/sharingbridge/sharingbridge/blob/main/development/CALL_FOR_CONTRIBUTORS.md) for:
-- How to contribute (technical and non-technical)
-- Joining GitHub Discussions
-- Submitting prompts and feature ideas
+```bash
+npm install
+npm test
+npm start
+```
 
-## License
+## Payload (from integration-service)
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```json
+{
+  "type": "connection_ready",
+  "order_code": "SB-7K2M-9F3",
+  "recipient_user_ids": ["user-id-1"],
+  "recipient_emails": ["user@example.com"],
+  "subject": "SharingBridge — order SB-7K2M-9F3 connection ready",
+  "text": "Order SB-7K2M-9F3 — a connection is ready..."
+}
+```
+
+Push uses `recipient_user_ids` → `device_tokens` table. Email delivery can be added later (Resend/SendGrid).
 
 ---
 
-Part of the [SharingBridge](https://github.com/sharingbridge/sharingbridge) ecosystem
+Part of the [SharingBridge](https://github.com/sharingbridge/sharingbridge) ecosystem.
